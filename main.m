@@ -1,14 +1,19 @@
 close all;
+clc;
  
-all_images = dir('input_images/');           %% ï¿½ï¿½È¡\input_imagesÄ¿Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½MATLABï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½Ó¼ï¿½ï¿½ï¿½all_imagesï¿½ï¿½ï¿½Ã½á¹¹ï¿½ï¿½Ä½á¹¹ï¿½ï¿½×¢ï¿½â£¬ï¿½ï¿½ï¿½ï¿½99ï¿½ï¿½Í¼Æ¬ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½all_imagesï¿½Ðºï¿½ï¿½ï¿½101ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"."ï¿½ï¿½".."
+n = 25;
+nv = 20;
+
+
+all_images = dir('input_images/');           %% ¶ÁÈ¡\input_imagesÄ¿Â¼ÏÂËùÓÐÍ¼ÏóÎÄ¼þ¡£¿ÉÔÚMATLAB»·¾³ÏÂÖ±½Ó¼üÈëall_images¿´¸Ã½á¹¹ÌåµÄ½á¹¹¡£×¢Òâ£¬¹ûÓÐ99¸öÍ¼Æ¬ÎÄ¼þ£¬Ôòall_imagesÖÐº¬ÓÐ101¸ö·ÖÁ¿£¬ÒòÎª»¹°üÀ¨"."ºÍ".."
 
 cd('input_images/');
-image_0 = imread(all_images(3).name);        %% ï¿½ï¿½È¡ï¿½ï¿½Ò»ï¿½ï¿½Í¼Æ¬ï¿½ï¿½×¢ï¿½ï¿½ï¿½ï¿½Å´ï¿½"3"ï¿½ï¿½Ê¼ï¿½ï¿½
+image_0 = imread(all_images(3).name);        %% ¶ÁÈ¡µÚÒ»·ùÍ¼Æ¬£¬×¢ÒâÐòºÅ´Ó"3"¿ªÊ¼¡£
 cd('../');
 
-[row, col, channel] = size(image_0);         %% ï¿½ï¿½È¡Í¼Æ¬ï¿½Ä´ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½É«ï¿½ï¿½Ï¢
-Y = zeros(row*col, length(all_images)-2);    %% ÎªYï¿½ï¿½ï¿½ï¿½Ô¤ï¿½ï¿½ï¿½Ú´ï¿½Õ¼ä¡£
-if (channel == 3)                            %% channelï¿½ï¿½ï¿½ï¿½3Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç»Ò¶ï¿½Í¼Æ¬ 
+[row, col, channel] = size(image_0);         %% ¶ÁÈ¡Í¼Æ¬µÄ´óÐ¡¡¢ÑÕÉ«ÐÅÏ¢
+Y = zeros(row*col, length(all_images)-2);    %% ÎªY±äÁ¿Ô¤ÁôÄÚ´æ¿Õ¼ä¡£
+if (channel == 3)                            %% channel·µ»Ø3ËµÃ÷ÊÇÑÕÉ«Í¼Æ¬£¬·ñÔòÊÇ»Ò¶ÈÍ¼Æ¬ 
     is_color = 1;
 else
     is_color = 0;
@@ -16,7 +21,7 @@ end
  
 for k = 3:length(all_images)
     
-    %% ï¿½ï¿½È¡ï¿½ï¿½kï¿½ï¿½Í¼Æ¬
+    %% ¶ÁÈ¡µÚk·ùÍ¼Æ¬
 
     file_name = all_images(k).name;
     cd('input_images/');    
@@ -24,39 +29,47 @@ for k = 3:length(all_images)
     cd('../');
     
     if (is_color)
-        image = rgb2gray(image);             %% ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«Í¼Æ¬ï¿½ï¿½ï¿½ï¿½Òª×ªï¿½ï¿½Îªï¿½Ò¶ï¿½Í¼Æ¬
+        image = rgb2gray(image);             %% Èç¹ûÊÇÑÕÉ«Í¼Æ¬£¬ÔòÒª×ª»¯Îª»Ò¶ÈÍ¼Æ¬
     end
             
-    Y(:,k-2) = double(reshape(image,row*col,1));    %% ï¿½ï¿½Í¼Æ¬ï¿½Ä¾ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï£¬ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½120*170ï¿½Ä¾ï¿½ï¿½ï¿½×ªï¿½ï¿½ÎªÒ»ï¿½ï¿½20400*1ï¿½ï¿½ï¿½Ð¾ï¿½ï¿½ó£¬²ï¿½ï¿½ï¿½ÎªYï¿½Äµï¿½k-2ï¿½Ð¡ï¿½
+    Y(:,k-2) = double(reshape(image,row*col,1));    %% ½«Í¼Æ¬µÄ¾ØÕó±í´ï×ª»¯ÎªÏòÁ¿±í´ï£¬¼´½«Ò»¸ö120*170µÄ¾ØÕó×ª»¯ÎªÒ»¸ö20400*1µÄÁÐ¾ØÕó£¬²¢×÷ÎªYµÄµÚk-2ÁÐ¡£
     
 end
 
-Ymean = mean(Y,2);
-Y = Y - Ymean * ones(1,size(Y,2));
- 
 
+ 
 %%% Add your training code here
 %%% To get Ahat, Chat, ......     
+tau = size(Y,2);
+Ymean = mean(Y,2);
+Y = Y - Ymean * ones(1,tau);
 
+[U,S,V] = svd(Y,0);
+Chat = U(:,1:n);
+Xhat = S(1:n,1:n) * V(:,1:n)';
+x0 = Xhat(:,1);
+Ahat = Xhat(:,2:tau) * pinv(Xhat(:,1:(tau-1)));
 
-
-
-
+Vhat = Xhat(:,2:tau) - Ahat*Xhat(:,1:(tau-1));
+[Uv,Sv,Vv] = svd(Vhat,0);
+Bhat = Uv(:,1:nv) * Sv(1:nv,1:nv) / sqrt(tau-1);
 
 % %%% Add your test code here
-% X = x0;
-% 
-% for k = 1:1000
-%     
-%     X = Ahat * X + Bhat * randn(nv,1);
-%     I = Chat * X + Ymean;
-%     
-%     I = floor(I);
-%     
-%     syn_img = reshape(I,[row,col]);
-% 
-%     imshow(syn_img,[0,255]);
-%     title(strcat('Frame ',num2str(k)));
-%     pause(0.01);
-% end
+
+tau = 2000;
+X = x0;
+ 
+for k = 1:tau
+     
+     X = Ahat * X + Bhat * randn(nv,1);
+     I = Chat * X + Ymean;
+     
+     I = floor(I);
+     
+     syn_img = reshape(I,[row,col]);
+ 
+     imshow(syn_img,[0,255]);
+     title(strcat('Frame ',num2str(k)));
+     pause(0.01);
+end
 
