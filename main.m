@@ -1,8 +1,8 @@
 close all;
 clc;
  
-n = 25;
-nv = 20;
+n = 20;
+nv = 12;
 
 
 all_images = dir('input_images/');           %% 读取\input_images目录下所有图象文件。可在MATLAB环境下直接键入all_images看该结构体的结构。注意，果有99个图片文件，则all_images中含有101个分量，因为还包括"."和".."
@@ -56,20 +56,57 @@ Bhat = Uv(:,1:nv) * Sv(1:nv,1:nv) / sqrt(tau-1);
 
 % %%% Add your test code here
 
-tau = 2000;
+tau = 200;
 X = x0;
+I=zeros(size(Ymean,1),tau);
+
+WriterObj=VideoWriter('test.avi');
+open(WriterObj);
  
 for k = 1:tau
      
      X = Ahat * X + Bhat * randn(nv,1);
-     I = Chat * X + Ymean;
+     %I = Chat * X + Ymean;
+     I(:,k) = Chat * X + Ymean;
      
-     I = floor(I);
+     I(:,k) = floor(I(:,k));
+%      save_img = reshape(I(:,k),[row,col]);
+%      saveUI = strcat('output_images/', num2str(k), '.jpg');
+%      imwrite(save_img, saveUI);
+%      frame = imread(saveUI);
+%      writeVideo(WriterObj,frame);
      
-     syn_img = reshape(I,[row,col]);
- 
+     syn_img = reshape(I(:,k),[row,col]);
+     
      imshow(syn_img,[0,255]);
+     saveUI = strcat('output_images/', num2str(k), '.bmp');
+     saveplace = strcat('output_images/', num2str(k));
+     saveas(gcf, saveplace, 'bmp');
+     
+     %syn_img
+     %syn_img = syn_img * 255;
+     %saveUI = strcat('output_images/', num2str(k), '.bmp');
+     %imwrite(syn_img, saveUI);
+     frame = imread(saveUI);
+     writeVideo(WriterObj,frame);
+     
      title(strcat('Frame ',num2str(k)));
      pause(0.01);
 end
 
+close(WriterObj);
+
+% I(I>1)=1;
+% I(I<0)=0;
+
+% for k = 1: tau
+%     Iee(:,:,1,k) = reshape(I(:,k),[row, col]);     
+% end
+% 
+% Iee(:,:,2,:) = Iee(:,:,1,:);
+% Iee(:,:,3,:) = Iee(:,:,2,:);
+
+% gvideo = VideoWriter('test.avi');
+% open(gvideo)
+% writeVideo(gvideo,Iee);
+% close(gvideo)
