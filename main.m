@@ -56,9 +56,8 @@ Bhat = Uv(:,1:nv) * Sv(1:nv,1:nv) / sqrt(tau-1);
 
 % %%% Add your test code here
 
-tau = 200;
+tau = 2000;
 X = x0;
-I=zeros(size(Ymean,1),tau);
 
 WriterObj=VideoWriter('test.avi');
 open(WriterObj);
@@ -66,27 +65,17 @@ open(WriterObj);
 for k = 1:tau
      
      X = Ahat * X + Bhat * randn(nv,1);
-     %I = Chat * X + Ymean;
-     I(:,k) = Chat * X + Ymean;
+     I = Chat * X + Ymean;
      
-     I(:,k) = floor(I(:,k));
-%      save_img = reshape(I(:,k),[row,col]);
-%      saveUI = strcat('output_images/', num2str(k), '.jpg');
-%      imwrite(save_img, saveUI);
-%      frame = imread(saveUI);
-%      writeVideo(WriterObj,frame);
+     I = floor(I);
      
-     syn_img = reshape(I(:,k),[row,col]);
+     syn_img = reshape(I,[row,col]);
      
      imshow(syn_img,[0,255]);
+     
      saveUI = strcat('output_images/', num2str(k), '.bmp');
      saveplace = strcat('output_images/', num2str(k));
      saveas(gcf, saveplace, 'bmp');
-     
-     %syn_img
-     %syn_img = syn_img * 255;
-     %saveUI = strcat('output_images/', num2str(k), '.bmp');
-     %imwrite(syn_img, saveUI);
      frame = imread(saveUI);
      writeVideo(WriterObj,frame);
      
@@ -95,18 +84,3 @@ for k = 1:tau
 end
 
 close(WriterObj);
-
-% I(I>1)=1;
-% I(I<0)=0;
-
-% for k = 1: tau
-%     Iee(:,:,1,k) = reshape(I(:,k),[row, col]);     
-% end
-% 
-% Iee(:,:,2,:) = Iee(:,:,1,:);
-% Iee(:,:,3,:) = Iee(:,:,2,:);
-
-% gvideo = VideoWriter('test.avi');
-% open(gvideo)
-% writeVideo(gvideo,Iee);
-% close(gvideo)
